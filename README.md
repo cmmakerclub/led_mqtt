@@ -2,9 +2,12 @@
 
 This project use [MQTT-Connector](https://github.com/cmmakerclub/MQTT-Connector) and [adafruit neopixel](https://learn.adafruit.com/adafruit-neopixel-uberguide/arduino-library-installation).
 
+
 ##Setup
 
+
 Set DEVICE\_NAME, WIFI\_SSID, WIFI\_PASSWORD And MQTT SERVER.
+
 
 ## MQTT API
 
@@ -12,7 +15,7 @@ Set DEVICE\_NAME, WIFI\_SSID, WIFI\_PASSWORD And MQTT SERVER.
 
 eg. WORKSHOP/LED_02/$/set\_led
 
-####Payload
+Payload
 
 	idle
 	run
@@ -28,6 +31,8 @@ Example
 ### Topic $/set_led
 
 Set color for specific led.
+
+Payload
 
 	00FFAA33
 	
