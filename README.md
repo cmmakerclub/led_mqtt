@@ -3,7 +3,7 @@
 This project use [MQTT-Connector](https://github.com/cmmakerclub/MQTT-Connector) and [adafruit neopixel](https://learn.adafruit.com/adafruit-neopixel-uberguide/arduino-library-installation).
 
 
-##Setup
+## Setup
 
 
 Set DEVICE\_NAME, WIFI\_SSID, WIFI\_PASSWORD And MQTT SERVER.
@@ -27,6 +27,28 @@ Example
 
 	run
 	
+	
+idle
+
+	Do nothing.
+		
+run
+
+	led running
+	
+rainbow
+	
+	show rainbow for shot of time
+	
+rainbow2
+	
+	show rainbow for shot of time	
+	
+rainbow3
+	
+	show rainbow for shot of time	
+
+---
 
 ### Topic $/set_led
 
@@ -54,6 +76,7 @@ Example
 	-> set led number 3 with color FA00AF
 	-> set led number 4 with color 1F00AA
 
+---
 
 ### Topic $/set\_run\_length
 
@@ -66,6 +89,7 @@ Example
 	
 	40
 
+---
 
 ### Topic $/set\_run\_led\_main
 
@@ -79,6 +103,7 @@ Example
 	FF00AA
 	-> set color for main running led
 
+---
 
 ### Topic $/set\_run\_led\_trail
 
@@ -92,6 +117,8 @@ Example
 	FF00AA
 	-> set color for main running led
 
+---
+
 ### Topic $/set\_run\_delay
 
 eg. WORKSHOP/LED_02/$/set\_run\_delay
@@ -103,3 +130,4 @@ Example
 
 	30
 
+---
