@@ -30,6 +30,9 @@ Example
 
 ### Topic $/set_led
 
+eg. WORKSHOP/LED_02/$/set\_led
+
+
 Set color for specific led.
 
 Payload
@@ -53,6 +56,10 @@ Example
 
 
 ### Topic $/set\_run\_length
+
+eg. WORKSHOP/LED_02/$/set\_run\_length
+
+
 In **run mode** set length of trail. (1 - max led length)
 	
 Example	
@@ -61,6 +68,9 @@ Example
 
 
 ### Topic $/set\_run\_led\_main
+
+eg. WORKSHOP/LED_02/$/set\_run\_led\_main
+
 
 In **run mode** set running main led color.
 
@@ -72,6 +82,9 @@ Example
 
 ### Topic $/set\_run\_led\_trail
 
+eg. WORKSHOP/LED_02/$/set\_run\_led\_trail
+
+
 In **run mode** set running led trail color.
 
 Example
@@ -80,6 +93,9 @@ Example
 	-> set color for main running led
 
 ### Topic $/set\_run\_delay
+
+eg. WORKSHOP/LED_02/$/set\_run\_delay
+
 
 In **run mode** set delay for running. (0 - 10000)
 
