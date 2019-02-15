@@ -52,6 +52,24 @@ rainbow3
 
 ### Topic $/set_led
 
+eg. WORKSHOP/LED_02/$/set\_led\_all
+
+Payload
+
+	FFAA33
+	
+	FF = Red
+	AA = Green
+	33 = Blue
+
+Example
+
+	FF00AA
+
+---
+
+### Topic $/set_led
+
 eg. WORKSHOP/LED_02/$/set\_led
 
 

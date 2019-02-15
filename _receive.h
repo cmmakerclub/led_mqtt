@@ -103,6 +103,31 @@ void register_receive_hooks() {
 
     }
 
+    if (cmd == "$/set_led_all")
+    {
+        String rString = payload.substring(0, 2);
+        String gString = payload.substring(2, 4);
+        String bString = payload.substring(4, 6);
+
+        char tempChar[sizeof(2)];
+        rString.toCharArray(tempChar, sizeof(tempChar));
+        unsigned int r = strtoul(tempChar, NULL, 16);
+        
+        gString.toCharArray(tempChar, sizeof(tempChar));
+        unsigned int g = strtoul(tempChar, NULL, 16);
+        
+        bString.toCharArray(tempChar, sizeof(tempChar));
+        unsigned int b = strtoul(tempChar, NULL, 16);          
+
+        for (int i = 0; i < maxLed; i ++)
+        {
+          strip.setPixelColor(i, strip.Color(r, g, b));  
+        }
+        
+        strip.show();
+
+    }
+
     if (cmd == "$/set_led")
     {
         String ledNumber = payload.substring(0, 2);
