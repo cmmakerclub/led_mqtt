@@ -50,7 +50,9 @@ rainbow3
 
 ---
 
-### Topic $/set_led
+### Topic $/set_led\_all
+
+Set color for all led in strip.
 
 eg. WORKSHOP/LED_02/$/set\_led\_all
 
@@ -71,7 +73,6 @@ Example
 ### Topic $/set_led
 
 eg. WORKSHOP/LED_02/$/set\_led
-
 
 Set color for specific led.
 
