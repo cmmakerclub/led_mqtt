@@ -198,6 +198,14 @@ void loop()
         
         bString.toCharArray(tempChar, sizeof(tempChar));
         b = strtoul(tempChar, NULL, 16);
+
+        if (r + g + b < 20)
+        {
+          // do not show very low light
+          r = rMainRun;
+          g = gMainRun;
+          b = bMainRun;
+        }
       }
 
       //(1 - alpha) * RGB_background.r + alpha * RGBA_color.r,
