@@ -27,6 +27,8 @@ String LED_MODE_RAINBOW_2 = "rainbow2";
 String LED_MODE_RAINBOW_3 = "rainbow3";
 String LED_MODE_CENTER = "center";
 
+String LED_TRIGGER_FIRER = "firer";
+
 MqttConnector *mqtt; 
 
 int maxLed = MAX_LED; 
@@ -40,7 +42,8 @@ int ledRunLead = 0;
 float ledRunAlpha[MAX_LED];
 String ledData[MAX_LED];
 
-String ledMode = LED_MODE_IDLE;
+String ledMode = LED_TRIGGER_FIRER;
+String triggerMode = "";
 
 ///////////////////
 /// LED RUN //////
@@ -124,6 +127,136 @@ void setup()
 
 void loop()
 {
+  if (triggerMode == LED_TRIGGER_FIRER)
+  {
+    int fireLead = 0;
+
+    for (int z = 0; z < maxLed + ledFadeLength * 3; z++)
+    {
+      //MAX_LED
+      if (mainLedRunData != "")
+      {
+        rString = mainLedRunData.substring(0, 2);
+        gString = mainLedRunData.substring(2, 4);
+        bString = mainLedRunData.substring(4, 6);          
+        
+        rString.toCharArray(tempChar, sizeof(tempChar));
+        rMainRun = strtoul(tempChar, NULL, 16);
+        
+        gString.toCharArray(tempChar, sizeof(tempChar));
+        gMainRun  = strtoul(tempChar, NULL, 16);
+        
+        bString.toCharArray(tempChar, sizeof(tempChar));
+        bMainRun  = strtoul(tempChar, NULL, 16);
+
+        rString = trailLedRunData.substring(0, 2);
+        gString = trailLedRunData.substring(2, 4);
+        bString = trailLedRunData.substring(4, 6);          
+        
+        rString.toCharArray(tempChar, sizeof(tempChar));
+        rTrailRun = strtoul(tempChar, NULL, 16);
+        
+        gString.toCharArray(tempChar, sizeof(tempChar));
+        gTrailRun  = strtoul(tempChar, NULL, 16);
+        
+        bString.toCharArray(tempChar, sizeof(tempChar));
+        bTrailRun  = strtoul(tempChar, NULL, 16);
+      }
+
+      if (fireLead < MAX_LED)
+      {
+        strip.setPixelColor(fireLead, strip.Color(r, g, b));
+      }
+
+      int backwardLed = fireLead;
+      int useR;
+      int useG;
+      int useB;
+      float percentBrightness = 1;
+      for (int i = 0; i < ledFadeLength; i++)
+      { 
+        backwardLed--;
+
+        if (backwardLed < 0)
+        {
+          backwardLed = MAX_LED - 1;
+        }
+
+        int UseMax = 0;
+
+        if (backwardLed >= MAX_LED)
+        {
+          UseMax = MAX_LED - 1;
+        }
+        else 
+        {
+          UseMax = backwardLed;
+        }
+
+        // try get main led color
+        if (ledData[UseMax] == "")
+        {
+          r = rMainRun;
+          g = gMainRun;
+          b = bMainRun;
+        }
+        else
+        {
+          rString = ledData[UseMax].substring(2, 4);
+          gString = ledData[UseMax].substring(4, 6);
+          bString = ledData[UseMax].substring(6, 8);
+
+          rString.toCharArray(tempChar, sizeof(tempChar));
+          r = strtoul(tempChar, NULL, 16);
+          
+          gString.toCharArray(tempChar, sizeof(tempChar));
+          g = strtoul(tempChar, NULL, 16);
+          
+          bString.toCharArray(tempChar, sizeof(tempChar));
+          b = strtoul(tempChar, NULL, 16);
+
+          if (r + g + b < 20)
+          {
+            // do not show very low light
+            r = rMainRun;
+            g = gMainRun;
+            b = bMainRun;
+          }
+        }
+
+        //(1 - alpha) * RGB_background.r + alpha * RGBA_color.r,
+        //(1 - alpha) * RGB_background.g + alpha * RGBA_color.g,
+        //(1 - alpha) * RGB_background.b + alpha * RGBA_color.b
+        
+        if (i == ledFadeLength - 1)
+        {
+          percentBrightness = 0;
+        }
+        
+        useR = (float)(1 - percentBrightness) * rTrailRun + percentBrightness * r;
+        useG = (float)(1 - percentBrightness) * gTrailRun + percentBrightness * g;
+        useB = (float)(1 - percentBrightness) * bTrailRun + percentBrightness * b;
+
+        percentBrightness = (float)((float)(ledFadeLength - i) / ledFadeLength);
+        
+        if (backwardLed < MAX_LED)
+        {
+          strip.setPixelColor(backwardLed, strip.Color(useR, useG, useB));
+        }
+        else 
+        {
+          strip.setPixelColor(MAX_LED - 1, strip.Color(useR, useG, useB));          
+        }
+
+      }
+      
+      delay(ledDelay);
+      strip.show();
+      fireLead++;
+    }
+    triggerMode = "";
+  }
+
   if (ledMode == LED_MODE_IDLE)
   {
     
@@ -177,6 +310,11 @@ void loop()
         backwardLed = MAX_LED - 1;
       }
 
+      if (backwardLed >= MAX_LED)
+      {
+        backwardLed = MAX_LED - 1;
+      }
+
       // try get main led color
       if (ledData[backwardLed] == "")
       {
@@ -223,8 +361,14 @@ void loop()
 
       percentBrightness = (float)((float)(ledFadeLength - i) / ledFadeLength);
       
-      strip.setPixelColor(backwardLed, strip.Color(useR, useG, useB));
-
+      if (backwardLed > maxLed)
+      {
+        strip.setPixelColor(maxLed - 1, strip.Color(useR, useG, useB));
+      }
+      else
+      {
+        strip.setPixelColor(backwardLed, strip.Color(useR, useG, useB));
+      }
     }
     
     delay(ledDelay);
@@ -235,6 +379,7 @@ void loop()
     {
       ledRunLead = 0;
     }
+
   }
   else if (ledMode == LED_MODE_CENTER)
   {

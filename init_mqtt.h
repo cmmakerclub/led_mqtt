@@ -33,7 +33,7 @@ void init_mqtt()
     config->clientId  = MQTT_CLIENT_ID;
     config->channelPrefix = MQTT_PREFIX;
     config->enableLastWill = true;
-    config->retainPublishMessage = false;
+    config->retainPublishMessage = true;
     /*
         config->mode
         ===================

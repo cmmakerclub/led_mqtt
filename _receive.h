@@ -27,9 +27,10 @@ extern String LED_MODE_CENTER;
 extern String LED_MODE_RAINBOW;
 extern String LED_MODE_RAINBOW_2;
 extern String LED_MODE_RAINBOW_3;
-
+extern String LED_TRIGGER_FIRER;
 extern String mainLedRunData;
 extern String trailLedRunData;
+extern String triggerMode;
 
 extern Adafruit_NeoPixel strip;
 
@@ -49,6 +50,10 @@ void register_receive_hooks() {
     Serial.printf("cmd: %s\r\n", cmd.c_str());
     Serial.printf("payload: %s\r\n", payload.c_str());
 
+    if (cmd == "$/firer")
+    {
+      triggerMode = LED_TRIGGER_FIRER;
+    }
     if (cmd == "$/set_run_delay")
     {
       if (payload.toInt() >= 0 && payload.toInt() < 10000)
@@ -68,10 +73,8 @@ void register_receive_hooks() {
     {
       if (payload.toInt() > 0 && payload.toInt() < maxLed)
       {
-        ledDelay = payload.toInt();
+        ledFadeLength = payload.toInt();
       }
-      
-      ledFadeLength = payload.toInt();
     }
     
     if (cmd == "$/set_mode")
