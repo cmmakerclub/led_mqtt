@@ -17,7 +17,7 @@
 #include "_receive.h"
 #include "_config.h"
 
-#define PIN 27
+#define PIN 23
 #define MAX_LED 150
 
 String LED_MODE_IDLE = "idle";
