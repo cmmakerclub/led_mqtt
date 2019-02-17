@@ -1,7 +1,7 @@
 #include <Arduino.h> 
 
 /* BOARD INFO */
-String DEVICE_NAME      = "LED_STRIP_001";
+String DEVICE_NAME      = "CLOUD_003";
 
 /* WIFI INFO */ 
 String WIFI_SSID        = "ampere";

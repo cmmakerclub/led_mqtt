@@ -32,6 +32,8 @@ extern String mainLedRunData;
 extern String trailLedRunData;
 extern String triggerMode;
 
+extern String customFirerLedRunData;
+
 extern Adafruit_NeoPixel strip;
 
 void register_receive_hooks() {
@@ -53,6 +55,10 @@ void register_receive_hooks() {
     if (cmd == "$/firer")
     {
       triggerMode = LED_TRIGGER_FIRER;
+      if (payload.length() == 6)
+      {
+        customFirerLedRunData = payload;
+      }
     }
     if (cmd == "$/set_run_delay")
     {

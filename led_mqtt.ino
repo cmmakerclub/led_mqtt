@@ -18,7 +18,7 @@
 #include "_config.h"
 
 #define PIN 23
-#define MAX_LED 150
+#define MAX_LED 16
 
 String LED_MODE_IDLE = "idle";
 String LED_MODE_RUN = "run";
@@ -36,13 +36,13 @@ int relayPin = 15;
 int relayPinState = HIGH;
 int LED_PIN = 2;
 int ledDelay = 30;
-int ledFadeLength = 30;
+int ledFadeLength = 100;
 int ledRunLead = 0;
 
 float ledRunAlpha[MAX_LED];
 String ledData[MAX_LED];
 
-String ledMode = LED_TRIGGER_FIRER;
+String ledMode = LED_MODE_RUN;
 String triggerMode = "";
 
 ///////////////////
@@ -63,6 +63,8 @@ unsigned int b;
 
 String mainLedRunData = "FFFFFF";
 String trailLedRunData = "000000";
+String firerLedRunData = "FF0000";
+String customFirerLedRunData = "";
 
 String rString;
 String gString;
@@ -81,7 +83,7 @@ void init_hardware()
   pinMode(relayPin, OUTPUT);
   pinMode(LED_PIN, OUTPUT);
 
-  digitalWrite(relayPin, relayPinState);;
+  digitalWrite(relayPin, relayPinState);
   // serial port initialization
   Serial.begin(115200);
   delay(10);
@@ -136,9 +138,9 @@ void loop()
       //MAX_LED
       if (mainLedRunData != "")
       {
-        rString = mainLedRunData.substring(0, 2);
-        gString = mainLedRunData.substring(2, 4);
-        bString = mainLedRunData.substring(4, 6);          
+        rString = firerLedRunData.substring(0, 2);
+        gString = firerLedRunData.substring(2, 4);
+        bString = firerLedRunData.substring(4, 6);          
         
         rString.toCharArray(tempChar, sizeof(tempChar));
         rMainRun = strtoul(tempChar, NULL, 16);
@@ -194,7 +196,7 @@ void loop()
         }
 
         // try get main led color
-        if (ledData[UseMax] == "")
+        if (customFirerLedRunData.length() != 6)
         {
           r = rMainRun;
           g = gMainRun;
@@ -202,9 +204,9 @@ void loop()
         }
         else
         {
-          rString = ledData[UseMax].substring(2, 4);
-          gString = ledData[UseMax].substring(4, 6);
-          bString = ledData[UseMax].substring(6, 8);
+          rString = customFirerLedRunData.substring(0, 2);
+          gString = customFirerLedRunData.substring(2, 4);
+          bString = customFirerLedRunData.substring(4, 6);
 
           rString.toCharArray(tempChar, sizeof(tempChar));
           r = strtoul(tempChar, NULL, 16);
@@ -254,6 +256,7 @@ void loop()
       strip.show();
       fireLead++;
     }
+    customFirerLedRunData = ""; 
     triggerMode = "";
   }
 
